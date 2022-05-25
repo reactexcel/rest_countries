@@ -1,15 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@mui/styles";
+import { useNavigate } from "react-router-dom";
 
 const useountryStyles = makeStyles({
   country: {
     background: "#fff",
-    width: "305px",
+    width: "310px",
     boxShadow: "0px 3px 15px rgba(0,0,0,0.2)",
     borderRadius: 5,
     height: "370px",
     cursor: "pointer",
   },
+
+  country_detail_new_darkmode: {
+    width: "310px",
+    borderRadius: 5,
+    cursor: "pointer",
+    padding: 15,
+  },
+
+  country_darkMode: {
+    background: "#202c37",
+    width: "310px",
+    boxShadow: "0px 3px 15px rgba(0,0,0,0.2)",
+    borderRadius: 5,
+    height: "370px",
+    cursor: "pointer",
+  },
+
   countryDiv: {
     display: "flex",
     justifyContent: "space-between",
@@ -29,52 +47,78 @@ const useountryStyles = makeStyles({
     width: "100%",
     objectFit: "cover",
   },
+  country_detail_darkmode: {
+    backgroundColor: "#2b3945",
+    color: "#fff",
+  },
 });
 
-const Country = () => {
-  const [countries, setCountries] = useState<any>();
-  const fetchData = async () => {
-    const response = await fetch("https://restcountries.com/v3.1/all");
-    const data = await response.json();
-    setCountries(data);
+const Country = (props: any) => {
+  const navigate = useNavigate();
+  const showDetailsHandler = (data: any) => {
+    navigate("/country_details", { state: data });
   };
+  console.log(props.darkMode, "props.darkMode");
 
-  useEffect(() => {
-    try {
-      fetchData();
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
   const Countryclasses = useountryStyles();
   return (
     <>
-      <div className={Countryclasses.countryDiv}>
-        {countries?.map((data: any) => {
-          return (
-            <>
-              <div className={Countryclasses.country}>
-                <div className={Countryclasses.flag_country}>
-                  <img src="" className={Countryclasses.flag_country_img} />
-                </div>
-                <div className={Countryclasses.country_details}>
+      {props?.country?.map((data: any) => {
+        return (
+          <>
+            <div
+              className={
+                props.darkMode
+                  ? Countryclasses.country_darkMode
+                  : Countryclasses.country
+              }
+              onClick={() => {
+                showDetailsHandler(data);
+              }}
+            >
+              <div className={Countryclasses.flag_country}>
+                <img
+                  src={data.flags.svg}
+                  className={Countryclasses.flag_country_img}
+                />
+              </div>
+              <div
+                className={
+                  props.darkMode ? Countryclasses.country_detail_darkmode : ""
+                }
+              >
+                <div
+                  className={
+                    props.darkMode
+                      ? Countryclasses.country_detail_new_darkmode
+                      : Countryclasses.country_details
+                  }
+                >
                   <h3 className="name">Name</h3>
                   <p>
-                    Population:<span className="values">Test</span>
+                    Population:
+                    <span className={Countryclasses.country_values}>
+                      {data.population}
+                    </span>
                   </p>
                   <p>
                     Region:
-                    <span className={Countryclasses.country_values}>Test</span>
+                    <span className={Countryclasses.country_values}>
+                      {data.region}
+                    </span>
                   </p>
                   <p>
-                    Capital:<span className="values">Test</span>
+                    Capital:
+                    <span className={Countryclasses.country_values}>
+                      {data?.capital?.map((data: string) => data)}
+                    </span>
                   </p>
                 </div>
               </div>
-            </>
-          );
-        })}
-      </div>
+            </div>
+          </>
+        );
+      })}
     </>
   );
 };
