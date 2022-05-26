@@ -31,7 +31,6 @@ function* fetchCountrySaga() {
 function* countrySaga() {
   yield all([
     takeLatest(actions.GET_ALL_COUNTRY_LIST_REQUEST, fetchCountrySaga),
-    takeLatest(actions.GET_ALL_COUNTRY_LIST_REQUEST, fetchCountrySaga),
   ]);
 }
 

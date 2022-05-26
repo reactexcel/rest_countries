@@ -128,9 +128,8 @@ export const CountryDetails = ({ mode }: any) => {
   const CountryDetailsClasses = useCountryDetailsStyles();
   const location = useLocation();
   const dataset: any = location.state;
-
+  console.log(dataset, "datasetdatasetdatasetdataset");
   const matches = useMediaQuery("(max-width:800px)");
-
   console.log(dataset, "dataset");
 
   const navigates = useNavigate();
@@ -173,7 +172,9 @@ export const CountryDetails = ({ mode }: any) => {
           </div>
 
           <div className={CountryDetailsClasses.info}>
-            <h2 className={CountryDetailsClasses.info_h2}>name</h2>
+            <h2 className={CountryDetailsClasses.info_h2}>
+              {dataset?.name?.common}
+            </h2>
             <div
               className={
                 matches
@@ -182,19 +183,6 @@ export const CountryDetails = ({ mode }: any) => {
               }
             >
               <div className={matches ? CountryDetailsClasses.left_info : ""}>
-                <p>
-                  Native Name:
-                  <span
-                    className={
-                      mode
-                        ? CountryDetailsClasses.info_values_darkMode
-                        : CountryDetailsClasses.info_values
-                    }
-                  >
-                    {" "}
-                    {dataset?.name?.nativeName?.eng?.common}
-                  </span>
-                </p>
                 <p>
                   Population:
                   <span
@@ -242,31 +230,7 @@ export const CountryDetails = ({ mode }: any) => {
                         : CountryDetailsClasses.info_values
                     }
                   >
-                    Test
-                  </span>
-                </p>
-                <p>
-                  Top-level Domain:
-                  <span
-                    className={
-                      mode
-                        ? CountryDetailsClasses.info_values_darkMode
-                        : CountryDetailsClasses.info_values
-                    }
-                  >
-                    Test
-                  </span>
-                </p>
-                <p>
-                  Currencies:
-                  <span
-                    className={
-                      mode
-                        ? CountryDetailsClasses.info_values_darkMode
-                        : CountryDetailsClasses.info_values
-                    }
-                  >
-                    {dataset?.currencies?.DOP?.name}
+                    {dataset?.capital?.length ? dataset?.capital[0] : ""}
                   </span>
                 </p>
                 <p>
@@ -278,14 +242,16 @@ export const CountryDetails = ({ mode }: any) => {
                         : CountryDetailsClasses.info_values
                     }
                   >
-                    {" "}
-                    {dataset?.languages?.eng}
+                    {/* @ts-ignore */}
+                    {dataset?.languages
+                      ? Object.values(dataset?.languages)[0]
+                      : ""}
                   </span>
                 </p>
               </div>
             </div>
             Border Countries :
-            {dataset?.borders.map((data: string) => (
+            {dataset?.borders?.map((data: string) => (
               <div
                 className={
                   mode

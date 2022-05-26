@@ -5,6 +5,13 @@ export interface CTodo {
   population: string;
   title: string;
   svg: any;
+  flags: {
+    svg: any;
+  };
+  name: {
+    common: string;
+  };
+  capital: Array<any>;
 }
 
 export interface CountryState {

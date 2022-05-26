@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@mui/styles";
 import { useNavigate } from "react-router-dom";
+import { CTodo } from "../../types/country";
 
 const useountryStyles = makeStyles({
   country: {
@@ -63,7 +64,7 @@ const Country = (props: any) => {
   const Countryclasses = useountryStyles();
   return (
     <>
-      {props?.country?.map((data: any) => {
+      {props?.country?.map((data: CTodo) => {
         return (
           <>
             <div
@@ -94,7 +95,7 @@ const Country = (props: any) => {
                       : Countryclasses.country_details
                   }
                 >
-                  <h3 className="name">Name</h3>
+                  <h3 className="name">{data.name.common}</h3>
                   <p>
                     Population:
                     <span className={Countryclasses.country_values}>

@@ -8,6 +8,18 @@ import { getAllCountryListRequest } from "../redux/actions/countryAction";
 import CircularProgress from "@mui/material/CircularProgress";
 
 const useStyles = makeStyles({
+  "@global": {
+    "*::-webkit-scrollbar": {
+      width: "0.4em",
+    },
+    "*::-webkit-scrollbar-track": {
+      "-webkit-box-shadow": "inset 0 0 6px rgba(0,0,0,0.00)",
+    },
+    "*::-webkit-scrollbar-thumb": {
+      backgroundColor: "rgba(0,0,0,.1)",
+      outline: "1px solid slategrey",
+    },
+  },
   app_body: {
     margin: "15px auto 0",
     padding: "15px",
@@ -51,6 +63,13 @@ const useStyles = makeStyles({
     backgroundColor: "transparent",
     outline: "none",
     fontSize: "15px",
+  },
+  search_inputs_input_dark: {
+    border: 0,
+    backgroundColor: "transparent",
+    outline: "none",
+    fontSize: "15px",
+    color: "white",
   },
 
   select_region: {
@@ -122,6 +141,9 @@ const useStyles = makeStyles({
   app_body_dark: {
     backgroundColor: "#202c37",
     color: "#fff",
+    height: "100vh",
+    position: "relative",
+    overflow: "auto",
   },
 });
 
@@ -148,7 +170,7 @@ const HomePage = ({ mode }: any) => {
     if (searchValue.trim()) {
       const fetchSearch = async () => {
         const responseSearch = await fetch(
-          `https://restcountries.com/v3.1/region/${searchValue}`
+          `https://restcountries.com/v3.1/name/${searchValue}`
         );
         const data = await responseSearch.json();
         setCountries(data);
@@ -214,7 +236,7 @@ const HomePage = ({ mode }: any) => {
                   <input
                     type="text"
                     placeholder="Search for a Country ..."
-                    className={classes.search_inputs_input}
+                    className={classes.search_inputs_input_dark}
                     ref={countriesInputRef}
                     onChange={searchCountries}
                   />
